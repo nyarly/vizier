@@ -1,0 +1,8 @@
+_MTN
+.bundle/
+.conductor/
+.mtn-ignore
+*.log
+doc/
+email.txt
+last_run

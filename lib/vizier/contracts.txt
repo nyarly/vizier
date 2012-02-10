@@ -1,0 +1,13 @@
+Various concerns in Vizier, and their participants:
+
+Input Parsing
+
+
+Argument Validation
+  Argument
+  TaskList
+
+Output View (i.e. the structured data)
+  Executable Unit
+  Interpreter (?)
+  x Command

@@ -1,0 +1,5 @@
+Because I only do this occasionally, a quick primer on how to propagate
+changes from this project out to the ones based on it:
+
+mtn propagate com.redfivellc.ruby-work.gembase <destination-branch>
+mtn update

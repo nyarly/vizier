@@ -1,0 +1,30 @@
+      #These methods are nodoc'd because at present, they don't work.
+      #They'd be awesome for big jobs - splitting them into subthreads and
+      #such.  But they need to be debugged, and IIRC there's a deadlock
+      #condition
+      def action_thread(&block) #:nodoc:
+        collector = sub_collector
+        return Thread.new do
+          $stdout.set_thread_collector(collector)
+          block.call
+          $stdout.remove_thread_collector(collector)
+        end
+      end
+
+      require 'thwait'
+      def fan_out(array, thread_count, &block) #:nodoc:
+        first_batch = (array[0...thread_count]||[]).map do |item|
+          action_thread { block.call(item) }
+        end
+
+        rest = (array[thread_count..-1] || [])
+
+        waiter = ThreadsWait.new(*first_batch)
+
+        rest.each do |item|
+          waiter.next_wait
+          waiter.join_nowait(action_thread{block.call(item)})
+        end
+
+        waiter.join
+      end

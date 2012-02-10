@@ -1,0 +1,9 @@
+Bugs that have been fixed ad hoc:
+
+#add_hint makes a completion response hinted
+Hinted lists only add " " to single or empty lists
+
+substrings accept incomplete entries as "best"
+substrings complete "as expected"
+
+:prune_dirs actually does what it's supposed to

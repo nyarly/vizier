@@ -1,0 +1,88 @@
+Refactor: command_set => root_command
+
+Refactor Visitors - the "churn" part should probably be a module?  Or an actual Visitor class...
+
+Need to rename fileset to valise here - file_set as what it's called?
+
+Completion Responses should come back with the best results first (possibly with the very best result starred or otherwised marked)
+
+SubstringDecorator should accept an existing completion input as meaning the best match for the input
+
+CompletionMatcher needs to be used for everything
+
+
+Substring matching needs to be able to handle the case of:
+  lib/stuff.rb
+  lib/stuff/something.rb <= "lib/stuff.rb" will match this
+
+  > l/st<tab><tab>
+  lib/stuff.rb
+  lib/stuff/something.rb
+  > lib/stuff.rb <= because the shortest matches everything else
+  > lib/stuff.rb^H^H/<tab>
+  > lib/stuff/something.rb
+
+  Substring cases:
+
+ ---
+  Current: a/c => app
+  Should:  a/c => app/c
+
+ ---
+  When:
+  vendor/plugins/logical_authz/lib/logical_authz.rb
+  vendor/plugins/logical_authz/generators/logical_authz_models/templates/migrations/create_permissions.rb.erb
+
+  Current: vendor/plugins/logical_authz/lib/logical_authz\t => doesn't complete
+  Should: => vendor/plugins/logical_authz/lib/logical_authz.rb
+
+> edit mill_spec/sp_he
+
+mill_spec/spec_helper.rb  <= that one
+mill_spec/support/authlogic_test_helper_spec.rb
+mill_spec/support/custom_model_matchers.rb
+mill_spec/support/hoptoad_spec_helper.rb
+mill_spec/synchronizers/person_synchronization_spec.rb
+
+
+ ---
+ If the completion prefix exists as a directory, use it as the base of substring
+
+
+ ---
+ Unknown cause: substring completion stops working - everything becomes single completion
+ Cause found: limit of 10,000 files searched.  Conductor needs to be able to set search paths and prune dirs - UI needed for "ran out of files while trying to find matches."
+ Furthermore: needs to do a pruned search and partial complete in this case
+
+ Completion needs a log
+
+
+There should be one path for splitting input lines - completion, parsing etc all should use the same rules.  It's split up all over by accident - I think 3 implementations (or 2.5)
+
+Tools that will convert a cmdset-record script into a rspec file, etc.
+
+Output cycle features:
+* Progress bars configurable by Interpreter.  Progress doesn't appear for .25 seconds or so.
+
+Command: subject_write - SubjectImage allows writing of those fields.
+
+Rationalization(w/c) of command-set file namespace and Command module namespace.  Is it "command" or "command-set" ?
+  Is it Structural or SetAcceptor or <Something>State
+Review of Command and CommandSet
+
+The SetAcceptors could use a little more refactoring - there are attrs that need to be pushed up/down
+
+
+CompletionResponse to become a more integrated part of argument/command processing.  Ideally, an argument DSL such that:
+- instead of ["Thing", ""] you say hint("Thing")
+- instead of [] you say no_match.
+- Completeness probably suggests matches %w{a b c} for ["a", "b", "c"]
+* CR (or new name) should replace use of Array as validation results.
+
+Better error reporting - "No such command" isn't helpful. (maybe just current text update)
+
+inject - allow free running threads or whatever to execute commands, unless user is entering input
+
+Mapping argument - user provides the key, action gets the value
+
+Path vs File arguments: really the only difference is the value that the command gets.

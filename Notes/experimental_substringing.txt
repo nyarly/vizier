@@ -1,0 +1,125 @@
+  "lib/vizier/spec/command.rb"
+1:"lib/vizier/s"
+2: "ib/vizier/s"
+3:  "b/vizier/s"
+4:   "/vizier/s"
+5:     "izier/s"
+6:      "zier/s"
+7:       "ier/s"
+8:        "er/s"
+9:         "r/s"
+10:         "/s"
+11:nil>
+
+
+
+
+  "lib/vizier/visitors/shorthand-parser.rb"
+1:"lib/vizier/visitors/short"
+2: "ib/vizier/visitors/short"
+3:  "b/vizier/visitors/short"
+4:   "/vizier/visitors/short"
+5:     "izier/visitors/short"
+6:      "zier/visitors/short"
+7:       "ier/visitors/short"
+8:        "er/visitors/short"
+9:         "r/visitors/short"
+10:         "/visitors/short"
+11:"hort">
+
+
+
+"lib/vizier/arguments/string.rb"
+
+1:"lib/vizier/arguments/st"
+2:"ib/vizier/arguments/st"
+3:"b/vizier/arguments/st"
+4:"/vizier/arguments/st"
+5:"izier/arguments/st"
+6:"zier/arguments/st"
+7:"ier/arguments/st"
+8:"er/arguments/st"
+9:"r/arguments/st"
+10:"/arguments/st"
+11:"t">
+
+"lib/vizier/argument-decorators/settable.rb"
+
+1:"lib/vizier/argument-decorators/set"
+2: "ib/vizier/argument-decorators/set"
+3:  "b/vizier/argument-decorators/set"
+4:   "/vizier/argument-decorators/set"
+5:     "izier/argument-decorators/set"
+6:          "/argument-decorators/set"
+7:                                "et"
+
+lb/vz/st
+
+?l(.*?b(.*?\/v(.*?z(.*?\/s(.*?t)?)?)?)?)?)?.*?/>
+
+  "lib/vizier/subject.rb"
+
+1:"lib/vizier/subject" -> "l"      l
+2: "ib/vizier/subject" -> "ib"     b
+3:   "/vizier/subject" -> "/v"     v  but / is "sticky" -> /v
+4:     "izier/subject" -> "iz"     z
+5:       "ier/subject" -> "ier/s"  s  sticky            -> /s
+6:            "ubject" -> "ubject" t
+post:               ".rb"
+   l b/v z   /s     t
+
+item.len - post.len = last
+last - 6.len
+last - 5.len
+...
+
+
+
+  "lib/vizier/standard-commands.rb"
+1:"lib/vizier/st"
+2: "ib/vizier/st"
+3:   "/vizier/st"
+4:     "izier/st"
+5:       "ier/st"
+6:            "t">
+
+"lib/vizier/visitors/shorthand-parser.rb"
+1:"lib/vizier/visitors/short"
+2:"ib/vizier/visitors/short"
+3:"/vizier/visitors/short"
+4:"izier/visitors/short"
+5:"ier/visitors/short"
+6:"hort">
+"lib/vizier/arguments/string.rb"
+
+1:"lib/vizier/arguments/st"
+2:"ib/vizier/arguments/st"
+3:"/vizier/arguments/st"
+4:"izier/arguments/st"
+5:"ier/arguments/st"
+6:"t">
+"lib/vizier/formatter/strategy.rb"
+
+1:"lib/vizier/formatter/st"
+2:"ib/vizier/formatter/st"
+3:"/vizier/formatter/st"
+4:"izier/formatter/st"
+5:"ier/formatter/st"
+6:"t">
+"lib/vizier/argument-decorators/settable.rb"
+
+1:"lib/vizier/argument-decorators/set"
+2:"ib/vizier/argument-decorators/set"
+3:"/vizier/argument-decorators/set"
+4:"izier/argument-decorators/set"
+5:"ier/argument-decorators/set"
+6:"et">
+"lib/vizier/argument-decorators/substring-match.rb"
+
+1:"lib/vizier/argument-decorators/subst"
+2:"ib/vizier/argument-decorators/subst"
+3:"/vizier/argument-decorators/subst"
+4:"izier/argument-decorators/subst"
+5:"ier/argument-decorators/subst"
+6:"ubst">
+#<Vizier::CompletionList:0xb7085c0c @prefix="", @list=["lib/vizier/subject.rb", "lib/vizier/standard-commands.rb", "lib/vizier/visitors/shorthand-parser.rb", "lib/vizier/arguments/string.rb", "lib/vizier/formatter/strategy.rb", "lib/vizier/argument-decorators/settable.rb", "lib/vizier/argument-decorators/substring-match.rb"]>

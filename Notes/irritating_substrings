@@ -1,0 +1,4 @@
+db/migrate/20090505114600_create_synchronization_mismatches.rb
+db/migrate/20090511124800_create_synchronization_adds.rb
+db/migrate/20091112063758_create_membership_applications.rb
+db/migrate/20100708005436_create_scans.rb *

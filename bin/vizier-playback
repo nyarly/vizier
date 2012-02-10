@@ -1,0 +1,42 @@
+#!/bin/env ruby
+# vim: filetype=ruby
+
+require 'optparse'
+require 'command-set/interpreter/recording'
+
+recording = nil
+pause_for = 0
+
+option_parser = OptionParser.new do |opts|
+  opts.on("-i", "--input RECORDING", "The path to load the session recording from") do |path|
+    recording = path
+  end
+
+  opts.on("-d", "--delay [DURATION]", Float, "How long to pause before next input - helps present the illusion of watching a playback.") do |pause|
+    if pause.nil?
+      pause_for = 0.2
+    else
+      pause_for = pause
+    end
+  end
+
+  opts.on_tail("-h", "--help", "Show this help") do
+    puts opts
+    exit
+  end
+end
+
+option_parser.parse!(ARGV)
+
+if(recording.nil?)
+  puts "Session recording required!"
+  exit 1
+end
+
+interpreter = Command::PlaybackInterpreter.new(recording, pause_for)
+interpreter.behavior(:debug_commands => true)
+
+puts "Beginning playback:"
+
+interpreter.go
+puts "Done."

@@ -1,0 +1,16 @@
+ ** Marked release 0.13 **
+
+Some fixes to substring matching
+Further overhaul of completion engine
+Preparing for release
+Too many changes
+Removing support for "file" functionality in command-set
+Changing interpreter/template relationship
+Little tweak to the completion rating routines
+Extended class based completions (and therefore completion decorators) to array arguments
+Cleaned up specs with let methods
+Added #emit
+Switcharound of StandardCommands
+Changed project name to Vizier
+Changing filenames to vizier
+New name: Vizier
