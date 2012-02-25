@@ -5,7 +5,7 @@ require 'orichalcum/readline'
 
 module Vizier
    class TextInterpreter < BaseInterpreter
-     def initialize
+     def initialize(command_set, engine)
        super
        @complete_line = false
        @behavior.merge!(

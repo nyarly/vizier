@@ -1,136 +1,130 @@
 require "vizier/interpreter/text"
-
-describe Vizier::TextInterpreter do
-  before do
-    @interpreter = Vizier::TextInterpreter.new
-    @interpreter.command_set = mock("command set").as_null_object
+require 'vizier/command-description'
+require 'vizier/engine'
+describe Vizier::Engine do
+  let :command_set do
+    Vizier::describe_commands {}
   end
 
-  it "should verify and return the subject that it's passed" do
-    subject = mock("subject")
-    subject.should_receive(:required_fields)
-    subject.should_receive(:verify)
-    subject.should_receive(:interpreter=)
-    subject.should_receive(:interpreter_behavior=)
-    subject.should_receive(:undo_stack=)
-    subject.should_receive(:command_set=)
-    subject.should_receive(:chain_of_command=)
-    subject.should_receive(:pause_decks=)
-    subject.should_receive(:mode_stack=)
-    subject.should_receive(:get_image)
-    subject.should_receive(:confirm).and_return("okay")
-
-    @interpreter.prep_subject(subject)
-    @interpreter.subject=subject
-    @interpreter.subject.confirm.should eql("okay")
+  let :engine do
+    Vizier::Engine.new(command_set)
   end
 
   it "should set up and verify an actual subject" do
     subject = Vizier::Subject.new
-    @interpreter.prep_subject(subject)
+    engine.prep_subject(subject)
     proc do
-      @interpreter.subject = subject
+      engine.subject = subject
     end.should_not raise_error
   end
-
-  it "should return the same command_set it's assigned" do
-    set = Object.new
-    set.stub!(:add_requirements)
-    set.stub!(:add_defaults)
-    @interpreter.command_set=set
-    @interpreter.command_set.should eql(set)
-  end
-
-  it "should split line at spaces" do
-    @interpreter.split_line('A test line').should eql(["A", "test", "line"])
-  end
-
-  it "should split around quoted strings" do
-    @interpreter.split_line('A "test line"').should eql(["A", "test line"])
-  end
-
-  it "should not split escaped spaces" do
-    @interpreter.split_line('A test\ line').should eql(["A", "test line"])
-  end
-
-  it "should ignore embedded quotes" do
-    @interpreter.split_line("test's line").should eql(["test's", "line"])
-  end
-
-  it "should ignore escaped quotes" do
-    @interpreter.split_line('A \"test\" line').should eql(["A", '"test"', "line"])
-  end
-
-  it "should ignore escaped quotes" do
-    @interpreter.split_line('A \"test\" line').should eql(["A", '"test"', "line"])
-  end
-
-  it "should split multiple spaces only once" do
-    @interpreter.split_line('A   test  line').should eql(["A", "test", "line"])
-  end
-
-  it "should ignore leading spaces" do
-    @interpreter.split_line(' A test line').should eql(["A", "test", "line"])
-  end
-
-  it "should leave an empty word at the end of a line" do
-    @interpreter.split_line('A ').should eql(["A", ""])
-  end
-
-  it "should leave an empty word at the end of a line after quoted words" do
-    @interpreter.split_line('"A pear" ').should eql(["A pear", ""])
-  end
-
-#  it "should complete based on current mode" do
-#  end
-#  it "should execute root_commands"
-#  end
 end
 
-describe Vizier::TextInterpreter, "has a readline completion routine that" do
-  before do
-    @b = ""
-    @s = ""
-    @interpreter = Vizier::TextInterpreter.new
-    @interpreter.command_set = Vizier::define_commands do
-      command :test do
-        array_argument :item, subject.list
-        action {}
-      end
+describe Vizier::TextInterpreter do
+  let :engine do
+    mock("Engine").as_null_object
+  end
 
-      command :type do
-        action {}
-      end
+  let :command_set do
+    mock("CommandSet").as_null_object
+  end
 
-      include_commands StdCmd::Quit
+  describe "splitting lines" do
+    before do
+      @interpreter = Vizier::TextInterpreter.new(command_set, engine)
+    end
+
+    it "should split line at spaces" do
+      @interpreter.split_line('A test line').should eql(["A", "test", "line"])
+    end
+
+    it "should split around quoted strings" do
+      @interpreter.split_line('A "test line"').should eql(["A", "test line"])
+    end
+
+    it "should not split escaped spaces" do
+      @interpreter.split_line('A test\ line').should eql(["A", "test line"])
+    end
+
+    it "should ignore embedded quotes" do
+      @interpreter.split_line("test's line").should eql(["test's", "line"])
+    end
+
+    it "should ignore escaped quotes" do
+      @interpreter.split_line('A \"test\" line').should eql(["A", '"test"', "line"])
+    end
+
+    it "should ignore escaped quotes" do
+      @interpreter.split_line('A \"test\" line').should eql(["A", '"test"', "line"])
+    end
+
+    it "should split multiple spaces only once" do
+      @interpreter.split_line('A   test  line').should eql(["A", "test", "line"])
+    end
+
+    it "should ignore leading spaces" do
+      @interpreter.split_line(' A test line').should eql(["A", "test", "line"])
+    end
+
+    it "should leave an empty word at the end of a line" do
+      @interpreter.split_line('A ').should eql(["A", ""])
+    end
+
+    it "should leave an empty word at the end of a line after quoted words" do
+      @interpreter.split_line('"A pear" ').should eql(["A pear", ""])
     end
   end
 
-  it "should complete prefixes of space-embedding arguments" do
-    @interpreter.fill_subject {|s| s.list = ["A b b", "A b c"]}
-    @interpreter.readline_complete('', '').sort.should eql(["quit", "test", "type"])
-    @interpreter.readline_complete('test ', '').sort.should eql(['"A b b"', '"A b c"'])
-    #@interpreter.readline_complete("test \"", "").sort.should eql(['A b b"',
-    #'A b c"'])
-  end
 
-  it "should complete prefixes of mixed completions" do
-    @interpreter.fill_subject {|s| s.list = ["A list", "Another"]}
-    ["\"#{@b}A#{@s} list\"", "\"#{@b}A#{@s}nother\""].should include(*@interpreter.readline_complete("test A", 'A'))
-  end
+  #  it "should complete based on current mode" do
+  #  end
+  #  it "should execute root_commands"
+  #  end
 
-  it "should return tricky error message instead of raising an exception" do
-    @interpreter.fill_subject {|s| s.list = ["A b b", "A b c"]}
-    proc do
-      badcomplete = @interpreter.readline_complete(nil, nil)
-      badcomplete.length.should == 2
-      badcomplete[0].should =~ /^TypeError/
-        badcomplete[1].should == ""
-    end.should_not raise_error
-  end
+  describe "has a readline completion routine that" do
+    before do
+      @b = ""
+      @s = ""
+      @interpreter = Vizier::TextInterpreter.new(command_set, engine)
+      @interpreter.command_set = Vizier::define_commands do
+        command :test do
+          array_argument :item, subject.list
+          action {}
+        end
 
-  it "should complete 'quit'" do
-    @interpreter.readline_complete("q", "q").should eql(["quit"])
+        command :type do
+          action {}
+        end
+
+        include_commands StdCmd::Quit
+      end
+    end
+
+    it "should complete prefixes of space-embedding arguments" do
+      @interpreter.fill_subject {|s| s.list = ["A b b", "A b c"]}
+      @interpreter.readline_complete('', '').sort.should eql(["quit", "test", "type"])
+      @interpreter.readline_complete('test ', '').sort.should eql(['"A b b"', '"A b c"'])
+      #@interpreter.readline_complete("test \"", "").sort.should eql(['A b b"',
+      #'A b c"'])
+    end
+
+    it "should complete prefixes of mixed completions" do
+      @interpreter.fill_subject {|s| s.list = ["A list", "Another"]}
+      ["\"#{@b}A#{@s} list\"", "\"#{@b}A#{@s}nother\""].should include(*@interpreter.readline_complete("test A", 'A'))
+    end
+
+    it "should return tricky error message instead of raising an exception" do
+      @interpreter.fill_subject {|s| s.list = ["A b b", "A b c"]}
+      proc do
+        badcomplete = @interpreter.readline_complete(nil, nil)
+        badcomplete.length.should == 2
+        badcomplete[0].should =~ /^TypeError/
+          badcomplete[1].should == ""
+      end.should_not raise_error
+    end
+
+    it "should complete 'quit'" do
+      @interpreter.readline_complete("q", "q").should eql(["quit"])
+    end
   end
 end
 

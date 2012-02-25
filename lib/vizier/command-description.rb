@@ -23,7 +23,7 @@ module Vizier
     def task_class
       @task_class ||=
         begin
-          puts "Deprecated single task class syntax"
+          warn "Deprecated single task class syntax"
           klass = Class.new(Task::Base)
           @described.task(klass)
           klass

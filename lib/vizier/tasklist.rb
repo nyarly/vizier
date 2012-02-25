@@ -73,7 +73,7 @@ module Vizier
     def argument_names
       @argument_names ||=
         begin
-          all_arguments.inject([]) do |allowed, argument|
+          argument_list.inject([]) do |allowed, argument|
             allowed += [*argument.name]
           end
         end

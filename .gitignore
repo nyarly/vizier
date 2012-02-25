@@ -6,3 +6,5 @@ _MTN
 doc/
 email.txt
 last_run
+*.swp
+*.sw?

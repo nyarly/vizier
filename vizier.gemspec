@@ -146,8 +146,8 @@ Gem::Specification.new do |spec|
   end
 
   spec.add_dependency("orichalcum", "= 0.6.0")
-  spec.add_dependency("valise", "= 0.3")
-  spec.add_dependency("stencil", "= 0.2")
+  spec.add_dependency("valise")
+  spec.add_dependency("stencil")
   spec.has_rdoc		= true
   spec.extra_rdoc_files = Dir.glob("doc/**/*")
   spec.rdoc_options	= %w{--inline-source }

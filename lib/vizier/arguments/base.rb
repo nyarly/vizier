@@ -81,7 +81,7 @@ module Vizier
       @completion_matchers = {}
     end
 
-    attr_reader :name
+    attr_accessor :name
 
     def names
       return [name()]

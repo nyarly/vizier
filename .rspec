@@ -1,7 +1,8 @@
 --format documentation
 --out last_run
+-r fuubar
 --color
---format documentation
+--format Fuubar
 -I spec_help/interpose
 -I lib
 -I spec_help
