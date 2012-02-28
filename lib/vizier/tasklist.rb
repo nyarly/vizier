@@ -17,11 +17,11 @@ module Vizier
       !@tasks.empty?
     end
 
-    def executable(path, input_hash, subject, context)
-      verify_image(subject)
-      parsed_hash = parse_hash(input_hash, subject, context)
+    def executable(path, input_hash, subject)
+      verify_subject(subject)
+      parsed_hash = parse_hash(input_hash, subject)
       task_instances = @tasks.map do |task|
-        task.new(path, parsed_hash, subject.get_image(task.subject_requirements, context))
+        task.new(path, parsed_hash, subject)
       end
       return ExecutableUnit.new(path, task_instances)
     end
@@ -87,7 +87,7 @@ module Vizier
       return new_hash
     end
 
-    def parse_hash(input_hash, subject, context)
+    def parse_hash(input_hash, subject)
       wrong_values = {}
       missing_names = []
       parsed_hash = {}
@@ -97,7 +97,6 @@ module Vizier
       argument_list.each do |argument|
         begin
           #??? arguments need to be completely explicit about requirements now
-          image = subject.get_image(argument.subject_requirements, context)
           parsed_hash.merge! argument.consume_hash(subject, input_hash)
         rescue ArgumentInvalidException => aie
           wrong_values.merge! aie.pairs
@@ -117,7 +116,7 @@ module Vizier
       return parsed_hash
     end
 
-    def verify_image(subject)
+    def verify_subject(subject)
       return if subject_requirements.nil?
       subject_requirements.each do |requirement|
         begin

@@ -46,9 +46,6 @@ module Vizier
         state.set_nesting << state.node
         unless state.node.nil?
           state.unsatisfied_arguments = state.node.argument_list.dup
-          #@image = @subject.get_image(@node.subject_requirements,
-          #@subject_context)
-        end
         return state
       end
     end

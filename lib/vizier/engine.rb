@@ -12,12 +12,7 @@ module Vizier
     #Get a subject object by calling subject_template, assign it's fields,
     #and then pass it into subject=
     def subject= (subject)
-      subject
-      begin
-        subject.get_image(subject_requirements())
-      rescue CommandException
-        prep_subject(subject)
-      end
+      prep_subject(subject)
 
       subject.verify
       @subject = subject

@@ -24,7 +24,7 @@ module Vizier
       #This is how you'll access the Vizier::Subject object that's the
       #interface of every command to the program state.
       def subject
-        @subject_image
+        @subject
       end
 
       #:section: Pause and Resume

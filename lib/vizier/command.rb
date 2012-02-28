@@ -16,7 +16,6 @@ module Vizier
       @doc_text = nil
       @defined = false
       @advice_block = proc {}
-      @context = []
       @template_files = {}
       @child_commands = []
       @child_names = nil
@@ -71,10 +70,9 @@ module Vizier
       path = execution_context.command_path
       #nesting = execution_context.set_nesting
       subject = execution_context.subject
-      context = execution_context.subject_context
       args_hash = execution_context.arg_hash
 
-      task_list.executable(path, args_hash, subject, context)
+      task_list.executable(path, args_hash, subject)
     end
 
     def task(klass)

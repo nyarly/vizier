@@ -185,13 +185,11 @@ module Vizier
       def initialize(node, input)
         super
         @subject = nil
-        @subject_context = []
       end
-      attr_reader :subject, :subject_context
+      attr_reader :subject
 
       def initialize_copy(original)
         super
-        @subject_context = original.subject_context.dup
         @subject = original.subject
       end
 

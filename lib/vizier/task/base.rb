@@ -144,10 +144,10 @@ module Vizier
           subject_defaults[name] = default unless default.equal? NoDefault
 
           define_method(name) do
-            @subject_image[subject_deref(name)]
+            @subject[subject_deref(name)]
           end
           define_method("#{name}=") do |val|
-            @subject_image[subject_deref(name)] = val
+            @subject[subject_deref(name)] = val
           end
         end
 
@@ -184,10 +184,10 @@ module Vizier
         name
       end
 
-      def initialize(command_path, args_hash, subject_image)
+      def initialize(command_path, args_hash, subject)
         @nesting = command_path
         @args_hash = args_hash
-        @subject_image = subject_image
+        @subject= subject
       end
 
       def name
@@ -197,7 +197,7 @@ module Vizier
       def subject_view
         view = {}
         self.class.subject_requirements.each do |req|
-          view[req.to_s] = @subject_image[req]
+          view[req.to_s] = @subject[req]
         end
         view
       end

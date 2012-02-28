@@ -5,7 +5,7 @@ module Vizier
   #XXX: module Arguments
   module ArgumentHost
     attr_reader :subject_requirements, :argument_list,
-      :advice_block, :context
+      :advice_block
 
     def embed_argument(arg)
 #      unless argument_list.last.nil? or argument_list.last.required?
