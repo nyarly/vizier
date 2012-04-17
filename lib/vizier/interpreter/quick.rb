@@ -73,7 +73,7 @@ module Vizier
     end
 
     def complete_input(terms)
-      resolver = Visitors::ResolveCompletion.new(build_subject)
+      resolver = Visitors::ResolveCompletion.new(@engine.build_subject)
       completing = command_visit(Visitors::FindCompleters, VisitStates::CommandArguments, terms)
       resolver.add_states(*completing)
       return resolver.resolve

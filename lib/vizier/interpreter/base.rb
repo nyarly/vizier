@@ -96,6 +96,10 @@ module Vizier
       ::Vizier::raw_stdout.puts(text) unless text.empty?
     end
 
+    def command_visit(visitor, state_class, input)
+      @engine.command_visit(visitor, state_class, input)
+    end
+
     def current_command_set
       @command_set
     end

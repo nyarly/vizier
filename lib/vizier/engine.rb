@@ -47,6 +47,10 @@ module Vizier
       @subject = prep_subject(get_subject)
     end
 
+    def current_command_set #This needs to be examined
+      @command_set
+    end
+
     def fill_subject
       template = self.subject
       yield template
