@@ -1,5 +1,5 @@
 describe "A lazy programmer should have tested that" do
-  describe Task::Base do
+  describe Vizier::Task::Base do
     it "should adapt subject names to reflect disambiguation"
     it "should adapt subject names to reflect aliasing"
     it "should adapt subject names through multiple hops and across class inheritance"

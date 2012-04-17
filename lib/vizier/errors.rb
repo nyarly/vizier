@@ -18,9 +18,9 @@ module Vizier
   class Exception < StandardError; end
 
   class CantMergeArguments < StandardError
-    def initialize(first, second)
-      @first, @second = first, second
-      super("Cannot merge #{first.inspect} with #{second.inspect}")
+    def initialize(pair)
+      @first, @second = *pair
+      super("Cannot merge #{@first.inspect} with #{@second.inspect}")
     end
   end
 

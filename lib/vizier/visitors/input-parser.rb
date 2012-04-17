@@ -32,21 +32,22 @@ module Vizier
         end
       end
       #
-#      def mode_command_open(state)
-#        new_state = state.dup
-#        term = new_state.advance_term
-#        new_state.command_path << term
-#        new_state.node = new_state.node.select_mode_command(term)
-#        return new_state
-#        #return [new_state] + command_open
-#      end
+      #      def mode_command_open(state)
+      #        new_state = state.dup
+      #        term = new_state.advance_term
+      #        new_state.command_path << term
+      #        new_state.node = new_state.node.select_mode_command(term)
+      #        return new_state
+      #        #return [new_state] + command_open
+      #      end
 
       def command_open(term, state)
         state = super
         state.set_nesting << state.node
         unless state.node.nil?
           state.unsatisfied_arguments = state.node.argument_list.dup
-        return state
+          return state
+        end
       end
     end
   end

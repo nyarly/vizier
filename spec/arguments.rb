@@ -228,7 +228,7 @@ describe Vizier::Argument, "with decorator: settable", :type => :command_set do
     Vizier::QuickInterpreter.define_commands do
       settable.number_argument :x, 1..10
       command :test do
-        parent_argument :x
+    #    parent_argument :x
         settable.number_argument :y, 1..10
 
         doesnt_undo

@@ -1,4 +1,5 @@
 require 'vizier/interpreter/base'
+require 'vizier/engine'
 require 'vizier/command-description'
 require 'valise'
 
@@ -32,8 +33,9 @@ module Vizier
       #set.  The block is passed to Vizier::define_commands, so you can use
       #DSL::CommandSetDefinition there.
       def define_interpreter(&block)
-        interpreter = new
-        interpreter.command_set = Vizier::define_commands(&block)
+        command_set = Vizier::define_commands(&block)
+        engine = Vizier::Engine.new(command_set)
+        interpreter = new(command_set, engine)
         return interpreter
       end
 
@@ -44,7 +46,7 @@ module Vizier
       alias define_commands define_interpreter
     end
 
-    def initialize
+    def initialize(command_set, engine)
       @formatter_factory = proc {Results::TextFormatter.new(::Vizier::raw_stdout)}
       super
       @template_files = Valise::Set.new() #The idea being that we should always default
@@ -78,4 +80,5 @@ module Vizier
     end
 
   end
+
 end

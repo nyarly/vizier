@@ -38,11 +38,12 @@ module Vizier
     end
 
     Argument.instance_methods(false).each do |method|
-      class_eval(<<-EOM, __FILE__, __LINE__ + 1)
+      meth_str = <<-EOM
       def #{method}(*args, &block)
-        decorated.#{method}(*args, &block)
+        decorated.__send__(:#{method}, *args, &block)
       end
       EOM
+      class_eval(meth_str, __FILE__, __LINE__ + 1)
     end
 
     def pretty_print_instance_variables

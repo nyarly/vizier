@@ -337,7 +337,7 @@ module Vizier
       if other.class === self and basis_can_replace(other.raw_basis)
         return self
       else
-        raise CantMergeArguments, self, other
+        raise CantMergeArguments, [self, other]
       end
     end
 
