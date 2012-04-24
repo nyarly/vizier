@@ -2,10 +2,13 @@ require 'vizier/arguments'
 require 'vizier/visit-states'
 require 'orichalcum/completion-response'
 require 'forwardable'
+require 'vizier/debug'
 
 module Vizier
   module Visitors
     class Command
+      include Debug
+
       def initialize(subject)
         @subject = subject
         @states = []
@@ -32,6 +35,7 @@ module Vizier
       #
       def open(state)
         term = next_term(state)
+        debug :open => [term, state]
 
         if term.nil?
           return []
@@ -60,39 +64,39 @@ module Vizier
 
       def filter_valid(states)
         invalid, valid = states.partition{|state| invalid?(state)}
+        debug :invalid => invalid
         @invalid_states += invalid
         return valid
       end
 
       def filter_continuing(states)
         complete, incomplete = filter_valid(states).partition{|state| complete?(state)}
+        debug :complete => complete
         @complete_states += complete
+        debug :incomplete => incomplete
         return incomplete
       end
 
       #Assign priority here?
       def add_states(*states)
+        debug :filtering => states
         @states += filter_continuing(states)
         @states.sort_by!{|state| state.priority}
       end
       alias add_state add_states
 
-      #@@debug = "sure"
       def one_cycle
         state = @states.pop
-        if defined? @@debug
-          require 'pp'; pp :one_cycle => [state, "and #{@states.length} more"]
-        end
+        debug :one_cycle => [state, "and #{@states.length} more"]
 
         @closed_states << state
 
+        p self.class
         add_states(*(open(state)))
       end
 
       def resolve
-        if defined? @@debug
-          require 'pp'; pp :resolving => self.class
-        end
+        debug :resolving => self.class
 
         setup
         while unresolved? do
@@ -100,9 +104,9 @@ module Vizier
         end
 
         result = (solution or no_solution)
-        if defined? @@debug
-          pp :solution => result
-        end
+
+        debug :solution => result
+
         return result
       end
 

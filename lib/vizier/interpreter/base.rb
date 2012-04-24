@@ -96,8 +96,14 @@ module Vizier
       ::Vizier::raw_stdout.puts(text) unless text.empty?
     end
 
-    def command_visit(visitor, state_class, input)
-      @engine.command_visit(visitor, state_class, input)
+    def command_visit(visitor_class, state_class, input)
+      visitor = visitor_class.new(@engine.build_subject)
+      visitor.add_states(state_class.new(current_command_set, input))
+      if block_given?
+        return yield(visitor)
+      else
+        return visitor.resolve
+      end
     end
 
     def current_command_set

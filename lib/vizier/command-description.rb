@@ -6,7 +6,7 @@ module Vizier
     def describe_commands(name=nil, &block)
       calling_file = CommandDescription.get_caller_file
       name ||= File::basename(calling_file, ".rb")
-      CommandDescription.command(name, calling_file, &block)
+      CommandDescription.command(name, calling_file, &block).described
     end
 
     def extend_command(command, path, &block)

@@ -112,16 +112,6 @@ module Vizier
       return setup.command_instance(current_command_set, @subject)
     end
 
-    def command_visit(visitor_class, state_class, input)
-      visitor = visitor_class.new(build_subject)
-      visitor.add_states(state_class.new(current_command_set, input))
-      if block_given?
-        return yield(visitor)
-      else
-        return visitor.resolve
-      end
-    end
-
     def inject_command(command_setup, interpreter)
       command_setup = VisitStates::CommandSetup.canonicalize(command_setup)
       @commands_pending.push [interpreter, command_setup]

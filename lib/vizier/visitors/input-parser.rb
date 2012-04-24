@@ -46,8 +46,8 @@ module Vizier
         state.set_nesting << state.node
         unless state.node.nil?
           state.unsatisfied_arguments = state.node.argument_list.dup
-          return state
         end
+        return state
       end
     end
   end
